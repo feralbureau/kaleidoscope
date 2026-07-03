@@ -10,7 +10,6 @@
 # ------------------------------------------------
 
 import asyncio
-from asyncio.tasks import sleep
 import requests
 from pyrogram import Client
 

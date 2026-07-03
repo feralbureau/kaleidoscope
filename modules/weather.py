@@ -1,4 +1,4 @@
-from pyrogram import Client, filters
+from pyrogram import Client
 import python_weather, asyncio, os
 
 commands = ["weather"]

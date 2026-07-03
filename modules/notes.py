@@ -1,5 +1,4 @@
-import time
-from pyrogram import Client, filters
+from pyrogram import Client
 from utils import config
 
 commands = ['notes']
