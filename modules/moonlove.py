@@ -18,7 +18,7 @@ FRAMES = [
     "💖",
 ]
 
-async def handle(app: Client, client: Client, message):
+async def handle(app: Client, client: Client, message, args):
     for frame in FRAMES:
         await app.edit_message_text(chat_id=message.chat.id, message_id=message.id, text=frame)
         await asyncio.sleep(0.5)
