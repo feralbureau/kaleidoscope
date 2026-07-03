@@ -13,7 +13,7 @@ Before you can run userbot, ensure that you have the following:
 Clone the repository:
 
 ```bash
-git clone https://github.com/hkamori/kaleidoscope.git
+git clone https://github.com/feralbureau/kaleidoscope.git
 cd kaleidoscope
 ```
 Create a virtual environment (optional but recommended):
