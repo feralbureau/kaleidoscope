@@ -9,35 +9,32 @@
 # 🌐 https://www.gnu.org/licenses/agpl-3.0.html
 # ------------------------------------------------
 
-import os
 import importlib
+from pathlib import Path
 from pyrogram import Client
 from utils import config
 
 commands = ["help", "commands"]
 
-module_names = [
-    name[:-3] for name in os.listdir("modules")
-    if name.endswith(".py") and name != "__init__.py"
-]
-modules = {name: importlib.import_module(f"modules.{name}") for name in module_names}
-
-commands_dict = {}
-for module_name, module in modules.items():
-    if hasattr(module, 'commands'):
-        for command in module.commands:
-            if module_name not in commands_dict:
-                commands_dict[module_name] = []
-            commands_dict[module_name].append(command)
-
 async def handle(app: Client, client: Client, message, args):
     e = config.read('help_emoji')
     me = config.read('mainemoji')
+    
+    # build command list lazily
+    modules_dir = Path("modules")
+    commands_dict = {}
+    for f in modules_dir.glob("*.py"):
+        if f.stem == "__init__":
+            continue
+        module = importlib.import_module(f"modules.{f.stem}")
+        if hasattr(module, 'commands'):
+            commands_dict[f.stem] = module.commands
+
     commands_count = sum(len(cmds) for cmds in commands_dict.values())
-    modules_count = len(commands_dict)  # Count of unique modules
+    modules_count = len(commands_dict)
     msgtosend = f"{me} **{commands_count}** Commands available. **{modules_count}** modules.\n\n"
 
-    for module_name, commands in commands_dict.items():
-            commands_str = " | ".join(commands)
+    for module_name, module_commands in commands_dict.items():
+            commands_str = " | ".join(module_commands)
             msgtosend += f"{e} **{module_name.capitalize()}**:  ({commands_str})\n"
     await app.send_message(message.chat.id, msgtosend)
