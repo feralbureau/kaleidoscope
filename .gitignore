@@ -4,3 +4,5 @@ credentials
 config.json
 .env
 .DS_Store
+*.session*
+venv/

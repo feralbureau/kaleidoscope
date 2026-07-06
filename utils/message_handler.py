@@ -78,7 +78,13 @@ class MessageHandler:
 
         for module in self.modules.values():
             if hasattr(module, 'commands') and command in module.commands:
-                await module.handle(app, client, message, args)
+                try:
+                    await module.handle(app, client, message, args)
+                except Exception as e:
+                    await app.send_message(
+                        message.chat.id,
+                        f"📛 **Module error:** `{e}`"
+                    )
                 break
 
 message_handler = MessageHandler()

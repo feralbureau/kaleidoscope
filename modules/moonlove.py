@@ -19,9 +19,10 @@ FRAMES = [
 ]
 
 async def handle(app: Client, client: Client, message, args):
+    msg = await app.send_message(message.chat.id, "❤️")
     for frame in FRAMES:
-        await app.edit_message_text(chat_id=message.chat.id, message_id=message.id, text=frame)
+        await app.edit_message_text(chat_id=msg.chat.id, message_id=msg.id, text=frame)
         await asyncio.sleep(0.5)
 
-    final_message = message.text or "❤️"
-    await app.edit_message_text(chat_id=message.chat.id, message_id=message.id, text=final_message)
+    final_message = "❤️"
+    await app.edit_message_text(chat_id=msg.chat.id, message_id=msg.id, text=final_message)
