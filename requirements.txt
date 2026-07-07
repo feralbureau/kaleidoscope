@@ -1,6 +1,5 @@
 googletrans==3.1.0a0
 psutil==6.0.0
 Pyrogram==2.0.106
-python_weather==2.0.3
 requests==2.32.3
 TgCrypto==1.2.5
