@@ -23,5 +23,5 @@ async def handle(app: Client, client: Client, message, args):
         translation = translator.translate(phrase, dest=config.read('trlang'))
         await app.send_message(message.chat.id,
                                 f"🧾 **Translated:** `{translation.text} ({translation.dest})`")
-    except:
+    except Exception:
         await app.send_message(message.chat.id, f"📛  **Error.** Try changing your destination language: `.setvalue trlang (language code. example: en)`")

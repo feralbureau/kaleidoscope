@@ -19,5 +19,5 @@ async def handle(app: Client, client: Client, message, args):
         value = args[1]
         config.add(key, value)
         await app.send_message(message.chat.id, "✅  **Value set successfully**")
-    except:
+    except Exception:
         await app.send_message(message.chat.id, "📛  **Error setting value**")
