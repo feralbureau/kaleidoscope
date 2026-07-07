@@ -37,8 +37,9 @@ async def handle(app: Client, client: Client, message, args):
         all_keys = config.readAll()
         note_keys = [key for key in all_keys if key.startswith("note_")]
         if note_keys:
-            note_list = "\n❗ ".join([key.replace("note_", "❗ ") for key in note_keys])
-            await app.send_message(message.chat.id, f"📒  **Saved notes:**\n{note_list}")
+            note_names = [key.replace("note_", "") for key in note_keys]
+            note_list = "\n".join(f"📝 **{name}**" for name in note_names)
+            await app.send_message(message.chat.id, f"📒 **Saved notes:**\n{note_list}")
         else:
             await app.send_message(message.chat.id, "💢 You have no saved notes.")
 
