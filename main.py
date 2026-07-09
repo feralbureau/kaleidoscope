@@ -12,15 +12,11 @@
 import json
 import os
 import sys
-import time
-import threading
-from pathlib import Path
-from pyrogram import Client, filters
+from pyrogram import Client
 from utils.message_handler import message_handler
 
 class KaleidoscopeBot:
     def __init__(self):
-        self.uptime = 0
         self.stop_toggle = False
         self.credentials = self._load_credentials()
         self.app = Client(
@@ -49,12 +45,6 @@ class KaleidoscopeBot:
             json.dump(credentials, f)
         return credentials
 
-    def _uptime_counter(self):
-        """Track bot uptime."""
-        while not self.stop_toggle:
-            time.sleep(1)
-            self.uptime += 1
-
     @staticmethod
     def _display_banner():
         """Display the ASCII art banner."""
@@ -71,7 +61,6 @@ class KaleidoscopeBot:
 
     def start(self):
         """Initialize and start the bot."""
-        threading.Thread(target=self._uptime_counter, daemon=True).start()
         self._display_banner()
         @self.app.on_message()
         async def message_handler_wrapper(client, message):
