@@ -11,12 +11,18 @@ async def handle(app: Client, client: Client, message, args):
     command = args[0] if args else None
 
     if command == "save":
+        if len(args) < 3:
+            await app.send_message(message.chat.id, "📛 **Usage:** `notes save [name] [content]`")
+            return
         note_name = args[1]
         note_content = " ".join(args[2:])
         config.add(note_key(note_name), note_content)
         await app.send_message(message.chat.id, f"✅ Note **{note_name}** saved successfully!")
 
     elif command == "get":
+        if len(args) < 2:
+            await app.send_message(message.chat.id, "📛 **Usage:** `notes get [name]`")
+            return
         note_name = args[1]
         note_content = config.read(note_key(note_name))
         if note_content:
@@ -25,6 +31,9 @@ async def handle(app: Client, client: Client, message, args):
             await app.send_message(message.chat.id, f"📛  Note **{note_name}** not found!")
 
     elif command == "delete":
+        if len(args) < 2:
+            await app.send_message(message.chat.id, "📛 **Usage:** `notes delete [name]`")
+            return
         note_name = args[1]
         all_keys = config.readAll()
         if note_key(note_name) in all_keys:
