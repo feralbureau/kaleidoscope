@@ -49,6 +49,7 @@ ExecLine:  (exec)
 Translate:  (tr)
 ILoveYou:  (ily)
 Weather:  (weather)
+Dice:  (dice | coin | flip)
 ```
 
 # Implementing new modules
