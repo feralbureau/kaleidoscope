@@ -1,4 +1,4 @@
-googletrans==3.1.0a0
+googletrans==4.0.2
 psutil==6.0.0
 Pyrogram==2.0.106
 requests==2.32.3
