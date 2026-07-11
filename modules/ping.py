@@ -1,40 +1,40 @@
-import time, threading, socket
+"""ping module — check telegram ping and bot uptime"""
+import time
+import socket
 from pyrogram import Client
 
 commands = ["ping", "pong", "alive", "check"]
-global_uptime = 0
-stop_toggle = False
+_start_time = time.monotonic()
 
-def uptime_thread():
-    global global_uptime, stop_toggle
-    while not stop_toggle:
-        time.sleep(1)
-        global_uptime += 1
 
-def send_ping():
-    start_time = time.time()
+def _get_ping() -> str:
+    """Measure latency to Telegram servers."""
     try:
-        socket.create_connection(("149.154.167.51", 80))
+        start = time.time()
+        socket.create_connection(("149.154.167.51", 80), timeout=5)
+        elapsed = (time.time() - start) * 1000
+        return f"{elapsed:.2f} ms"
     except OSError:
         return "⚠️ Error connecting to Telegram."
-    else:
-        return f"{(time.time() - start_time) * 1000:.2f} ms"
 
-def count_uptime(global_uptime):
-    minutes, seconds = divmod(global_uptime, 60)
+
+def _format_uptime(seconds: float) -> str:
+    """Format uptime seconds into a human-readable string."""
+    minutes, seconds = divmod(int(seconds), 60)
     hours, minutes = divmod(minutes, 60)
     days, hours = divmod(hours, 24)
 
-    time_str = ""
+    parts = []
     if days > 0:
-        time_str += f"{days} days, "
-    time_str += f"{hours:02d}:{minutes:02d}:{seconds:02d}"
-    return time_str
+        parts.append(f"{days}d")
+    parts.append(f"{hours:02d}:{minutes:02d}:{seconds:02d}")
+    return " ".join(parts)
 
-uptimethr = threading.Thread(target=uptime_thread, daemon=True)
-uptimethr.start()
 
 async def handle(app: Client, client: Client, message, args):
-    ping_time = send_ping()
-    uptime = count_uptime(global_uptime)
-    await app.send_message(message.chat.id, f"⚡ **Telegram ping:** `{ping_time}`\n🚀 **Uptime:** `{uptime}`")
+    ping_time = _get_ping()
+    uptime = _format_uptime(time.monotonic() - _start_time)
+    await app.send_message(
+        message.chat.id,
+        f"⚡ **Telegram ping:** `{ping_time}`\n🚀 **Uptime:** `{uptime}`",
+    )
