@@ -60,8 +60,19 @@ class MessageHandler:
         allowed_users = config.get('allowed_users', [])
         return message.from_user.id in allowed_users
 
+    async def _run_on_message_hooks(self, app: Client, client: Client, message: Message) -> None:
+        """Run on_all_messages hooks registered by modules (before user validation)."""
+        for module in self.modules.values():
+            if hasattr(module, 'on_all_messages'):
+                try:
+                    await module.on_all_messages(app, client, message)
+                except Exception:
+                    pass
+
     async def handle_message(self, client: Client, message: Message, app: Client) -> None:
         """Handle incoming messages with user validation."""
+        await self._run_on_message_hooks(app, client, message)
+
         if not await self.validate_user(message, client):
             return
 
