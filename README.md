@@ -48,8 +48,12 @@ SetPrefix:  (setprefix)
 ExecLine:  (exec)
 Translate:  (tr)
 ILoveYou:  (ily)
-Weather:  (weather)
-Dice:  (dice | coin | flip)
+|Weather:  (weather | wttr)
+|Dice:  (dice | coin | flip)
+|Calc:  (calc | math | calculate)
+|ID:  (id)
+|Joke:  (joke | jokes | dadjoke)
+|AFK:  (afk)
 ```
 
 # Implementing new modules
