@@ -10,17 +10,23 @@
 # ------------------------------------------------
 
 import asyncio
-import requests
+import json
+import urllib.request
 from pyrogram import Client
 
 commands = ["ily"]
 
+ILY_DATA_URL = (
+    "https://gist.githubusercontent.com/hikariatama"
+    "/89d0246c72e5882e12af43be63f5bca5/raw"
+    "/08a5df7255d5e925ab2ede1efc892d9dc93af8e1/ily_classic.json"
+)
+
 async def fetch_hearts_animation():
-    response = await asyncio.get_event_loop().run_in_executor(
-        None,
-        lambda: requests.get("https://gist.githubusercontent.com/hikariatama/89d0246c72e5882e12af43be63f5bca5/raw/08a5df7255d5e925ab2ede1efc892d9dc93af8e1/ily_classic.json")
-    )
-    return response.json()
+    def _fetch():
+        req = urllib.request.urlopen(ILY_DATA_URL, timeout=10)
+        return json.loads(req.read().decode())
+    return await asyncio.get_event_loop().run_in_executor(None, _fetch)
 
 async def handle(app: Client, client: Client, message, args):
     hearts_animation = await fetch_hearts_animation()
