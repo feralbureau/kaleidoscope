@@ -56,6 +56,7 @@ Joke:  (joke | jokes | dadjoke)
 AFK:  (afk)
 QRCode:  (qrcode | qr)
 ShortURL:  (shorten | shorturl | tiny)
+Define:  (define | dict | definition)
 ```
 
 # Implementing new modules
