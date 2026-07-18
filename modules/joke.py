@@ -6,7 +6,6 @@ from pyrogram import Client
 
 commands = ["joke", "jokes", "dadjoke"]
 
-JOKE_API = "https://v2.jokeapi.dev/joke/Any?blacklistFlags=nsfw,religious,racist,sexist,explicit&type=single,twopart&safe-mode"
 
 async def handle(app: Client, client: Client, message, args):
     category = "Any"
