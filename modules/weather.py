@@ -1,4 +1,7 @@
-import json, urllib.request, urllib.parse
+import json
+import urllib.error
+import urllib.parse
+import urllib.request
 from pyrogram import Client
 
 commands = ["weather", "wttr"]
@@ -35,9 +38,25 @@ async def handle(app: Client, client: Client, message, args):
             f"☁️ {desc}\n"
             f"💨 Wind: {wind} km/h | 💧 Humidity: {humidity}%",
         )
+    except urllib.error.HTTPError as e:
+        if e.code == 404:
+            await app.send_message(
+                message.chat.id,
+                f"📛 **Weather error:** city not found\n"
+                f"Try: `.weather Warsaw`",
+            )
+        else:
+            await app.send_message(
+                message.chat.id,
+                f"📛 **Weather error:** server returned {e.code}",
+            )
+    except urllib.error.URLError:
+        await app.send_message(
+            message.chat.id,
+            "📛 **Weather error:** could not reach weather service",
+        )
     except Exception as e:
         await app.send_message(
             message.chat.id,
-            f"📛 **Weather error:** city not found\n"
-            f"Try: `.weather Warsaw`",
+            f"📛 **Weather error:** `{e}`",
         )
