@@ -97,10 +97,10 @@ from utils import config
 
 You can then use the following functions:
 
-- ```config.add_to_config(key, value)``` – Add or update a key-value pair.
-- ```config.read_from_config(key)``` – Read a specific key from the config.
-- ```config.read_all_keys()``` – Get all configuration keys.
-- ```remove_from_config(key)``` – Remove key-value pair.
+- ```config.add(key, value)``` – Add or update a key-value pair.
+- ```config.read(key)``` – Read a specific key from the config.
+- ```config.readAll()``` – Get all configuration keys.
+- ```config.remove(key)``` – Remove key-value pair.
 
 #### Final Notes
 - Testing: Once you’ve added the command, test your module by running the bot and executing the command in a chat.
