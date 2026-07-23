@@ -57,6 +57,7 @@ AFK:  (afk)
 QRCode:  (qrcode | qr)
 ShortURL:  (shorten | shorturl | tiny)
 Define:  (define | dict | definition)
+Urban:  (urban | ud | slang)
 ```
 
 # Implementing new modules
